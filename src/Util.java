@@ -11,7 +11,7 @@ public class Util {
     private int idxProduto = 0;
     private int idxFornecedor = 0;
 
-    public void menuPrincipal() {
+    public void menu() {
         int opcao;
         String menu = "1. Cadastrar produto\n2. Pesquisar produto\n3. Pesquisar fornecedor\n4. Finalizar";
         while(true) {
@@ -27,7 +27,7 @@ public class Util {
                         pesquisarProduto();
                         break;
                     case 3:
-                        pesquisarFornecedor();
+                        pesquisar();
                         break;
                     default:
                         showMessageDialog(null, "Opção inválida");
@@ -62,15 +62,19 @@ public class Util {
         return fornecedor;
     }
 
-    private Produto pesquisarProduto(){
-        String nome = showInputDialog("Nome");
+    private void pesquisarProduto(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        String aux = "Produto não encontrado";
+        String nome = showInputDialog("Nome do produto: ");
         for(int i = 0; i < idxProduto; i++) {
-            if(produto[i].getNome() == nome) {
-                return produto[i];
+            if(produto[i].getNome().equalsIgnoreCase(nome)) {
+                aux = "";
+                aux += "Nome do produto: " + nome + "\n";
+                aux += "Valor unitário: R$ "+ df.format(produto[i].getValorUni())+"\n";
+                aux += "Fornecedor: "+produto[i].getFornecedor().getNome()+"\n";
             }
         }
-        showMessageDialog(null, nome + "não encontrado");
-        return null;
+        showMessageDialog(null, aux);
     }
 
     private Fornecedor pesquisarFornecedor(){
@@ -84,5 +88,14 @@ public class Util {
         return null;
     }
 
+    private void pesquisar(){
+        Fornecedor fornecedor = pesquisarFornecedor();
+        if(fornecedor != null){
+            String aux="";
+            aux += "Fornecedor: "+fornecedor.getNome()+"\n";
+            aux += "CNPJ: "+fornecedor.getNome();
+            showMessageDialog(null,aux);
+        }
+    }
 
 }
